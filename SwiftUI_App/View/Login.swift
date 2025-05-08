@@ -47,7 +47,7 @@ struct Login: View {
                 /// Login Button
                 GradientButton(title: "Login", icon: "arrow.right") {
                     showOTPView = true
-                    print("Clicked")
+
                 }
                 .hSpacing(.trailing)
 //                .disableWithOpacity(email.isEmpty || password.isEmpty)
@@ -70,7 +70,7 @@ struct Login: View {
             }
             .hSpacing()
   
-                      }
+        }
         .padding(.vertical, 15)
         .padding(.horizontal, 25)
         .toolbar(.hidden, for: .navigationBar)
@@ -78,11 +78,11 @@ struct Login: View {
             if #available(iOS 16.4, *) {
                 /// Since I wanted a Custom Sheet Corner Radius
                 ForgotPassword(showResetView: $showResetView)
-                    .presentationDetents([.height(300), .height(600)])
+                    .presentationDetents([.height(350)])
                     .presentationCornerRadius(30)
             } else {
                 ForgotPassword(showResetView: $showResetView)
-                    .presentationDetents([.height(300), .height(600)])
+                    .presentationDetents([.height(350)])
             }
         }
         
@@ -90,11 +90,11 @@ struct Login: View {
             if #available(iOS 16.4, *) {
                 /// Since I wanted a Custom Sheet Corner Radius
                 PasswordResetView()
-                    .presentationDetents([.height(350), .height(600)])
+                    .presentationDetents([.height(350)])
                     .presentationCornerRadius(30)
             } else {
                 PasswordResetView()
-                    .presentationDetents([.height(350), .height(600)])
+                    .presentationDetents([.height(350)])
             }
         }
         
@@ -102,11 +102,11 @@ struct Login: View {
             if #available(iOS 16.4, *) {
                 /// Since I wanted a Custom Sheet Corner Radius
                 OTPView()
-                    .presentationDetents([.height(350), .height(600)])
+                    .presentationDetents([.height(350)])
                     .presentationCornerRadius(30)
             } else {
                 OTPView()
-                    .presentationDetents([.height(350), .height(600)])
+                    .presentationDetents([.height(350)])
             }
         }
     }

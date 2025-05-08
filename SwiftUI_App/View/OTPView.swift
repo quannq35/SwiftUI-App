@@ -10,56 +10,63 @@ import SwiftUI
 struct OTPView: View {
     
     @State var otpText: String = ""
+    
     @Environment(\.dismiss) private var dismiss
+    
+    /// Keyboard State
+    @FocusState private var isKeyboardShowing: Bool
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 15) {
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "arrow.left")
+                    .font(.title2)
+                    .foregroundColor(.gray)
+            }
+            .padding(.top, 10)
+                    
             Text("Enter OTP")
                 .font(.largeTitle.bold())
                 .vSpacing(.leading)
             
-            HStack(spacing: 0) {
-                ForEach(0 ..< 6, id: \.self) { index in
-                    OTPTextBox(index)
-                }
-                
-            }
-            .background {
-                TextField("", text: $otpText)
-
-            }
-            .padding(.bottom, 20)
-            .padding(.top, 10)
+            Text("an 6 digit code has been sent to your email")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.gray)
+                .padding(.top, -10)
             
-            GradientButton(title: "Confirm", icon: "arrow.right") {
-                dismiss()
+            VStack(spacing: 25) {
+                OTPVertificationView(otpText: $otpText)
+                
+                GradientButton(title: "Confirm", icon: "arrow.right") {
+                    dismiss()
+                }
+                .hSpacing(.trailing)
+                .disableWithOpacity(otpText.count < 6)
             }
-            .hSpacing(.trailing)
-            .disableWithOpacity(otpText.count < 6)
+            
+            
+            
+            Spacer(minLength: 0)
+              
         }
+        .padding(.vertical, 15)
         .padding(.horizontal, 24)
+        .interactiveDismissDisabled()
 
     }
-    
-    @ViewBuilder
-    func OTPTextBox(_ index: Int) -> some View {
-        ZStack {
-            if otpText.count > index {
-                /// Finding char at index
-                let startIndex = otpText.startIndex
-                let charIndex = otpText.index(startIndex, offsetBy: index)
-                let charToString = String(otpText[charIndex])
-                Text(charToString)
-            } else {
-                Text(" ")
+}
+
+extension Binding where Value == String {
+    func limit(_ length: Int) -> Self {
+        if self.wrappedValue.count > length {
+            DispatchQueue.main.async {
+                self.wrappedValue = String(self.wrappedValue.prefix(length))
             }
         }
-        .frame(width: 45, height: 45)
-        .background {
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
-                .stroke(.gray, lineWidth: 0.5)
-        }
-        .frame(maxWidth: .infinity)
+        return self
     }
 }
 
